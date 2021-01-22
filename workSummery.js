@@ -31,18 +31,16 @@ let tasks = [
     },
     {
         topic: "Third Weekend Work"
-    }];
+}];
 
-// inserts random values to Tasks array
-setUpTasks(tasks); 
+// Inserts random values to tasks array.
+setUpTasks(tasks);
 
-// adds properties tasksFinishedPercent and totalTime to every object in tasks
+// Adds properties tasksFinishedPercent and totalTime to every object in tasks
 addProperties(tasks)
 
-// inserts the desired html in to index.html
+// Inserts the desired html in to index.html
 insertTable(tasks);
-
-
 
 function insertTable(tasks) {
     let body = document.body;
@@ -69,7 +67,7 @@ function insertTable(tasks) {
         let startHour = task.startedAt.getHours() + ":" + task.startedAt.getMinutes();
         let endHour = task.finishedAt.getHours() + ":" + task.finishedAt.getMinutes();
 
-        let timeScale = task.totalTime * 100 / 25; // percentage of the maximum of 25 hours that the task took
+        let timeScale = task.totalTime * 100 / 25; // the percentage from the maximum of 25 hours that the task took
         timeScale = 80 - (65 * timeScale / 100); // reduce the difference between min and max for styling.
         tBody.insertAdjacentHTML('beforeend',
             '<tr>'
@@ -83,7 +81,6 @@ function insertTable(tasks) {
             + '</tr>'
         );
     }
-
 }
 
 function setUpTasks(tasks) {
@@ -95,14 +92,17 @@ function setUpTasks(tasks) {
         let endMinute = Math.floor(Math.random() * 59);
 
         let startDay = Math.floor(Math.random() * 31 + 1);
-        let endDay = (startHour >= endHour) ? startDay + 1 : startDay; // if end is after start (or in the same hour) it is on the next day.
+        let endDay = (startHour >= endHour) ? startDay + 1 : startDay; 
+        // If endHour is after startHour (or in the same hour) it must be on the next day.
         // maximum amount of time for a single job is 25 hours
         task.startedAt = new Date(2021, 0, startDay, startHour, startMinute);
         task.finishedAt = new Date(2021, 0, endDay, endHour, endMinute)
+
         task.tasksGiven = Math.floor(Math.random() * 20 + 1);
         task.tasksFinished = Math.floor(Math.random() * task.tasksGiven + 1);
     }
 }
+
 function addProperties(tasks) {
     for (let task of tasks) {
         calculateTimeOfWork(task);
