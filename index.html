@@ -5,89 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="workSummery.Css">
 </head>
 
 <body>
+ 
 
 </body>
-<script>
-    "use strict";
-    let tasks = [
-        {
-            topic: "HTML basics"
-        },
-        {
-            topic: "HTML Forms"
-        },
-        {
-
-            topic: "Product Landing Page"
-        },
-        {
-            topic: "Personal Portfolio"
-        },
-        {
-            topic: "My Wiki"
-        },
-        {
-            topic: "Java Script Ex-1"
-        },
-        {
-            topic: "Java Script Functions "
-        },
-        {
-
-            topic: "Java Script Loops"
-        },
-        {
-            topic: "Second Week End Work"
-        },
-        {
-            topic: "Third Week End Work"
-        }];
-
-        for (let task of tasks) {
-            let startHour = Math.floor(Math.random() * 11 + 12);
-            let startMinute = Math.floor(Math.random() * 59);
-
-            let endHour = Math.floor(Math.random() * 24);
-            let endMinute = Math.floor(Math.random() * 59);
-
-            let startDay = Math.floor(Math.random() * 31 + 1);
-            let endDay = (startHour >= endHour) ? startDay + 1 : startDay;
-
-            task.startedAt = new Date(2021, 0, startDay, startHour, startMinute);
-            task.finishedAt = new Date(2021, 0, endDay, endHour, endMinute)
-            task.tasksGiven = Math.floor(Math.random() * 20 + 1);
-            task.tasksFinished = Math.floor(Math.random() * task.tasksGiven + 1);
-        }
-    
-
-    function calculateTimeOfWork(task) {
-        let timeDifference = task.finishedAt - task.startedAt; // difference is millisecond.
-        timeDifference /= 1000; // difference in seconds
-        timeDifference /= 60; // difference in minutes
-        timeDifference /= 60; // difference in hours
-        timeDifference = timeDifference.toFixed(1); // round the number to a max of one decimal. 
-        task['totalTime'] = timeDifference; // different writing style for practice.
-    }
-
-    function calculateTasksFinishedPercent(task){
-        task.tasksFinishedPercent = Math.floor (task.tasksFinished*100/task.tasksGiven);
-    }
-
-    for (let task of tasks) {
-        calculateTimeOfWork(task);
-        document.write(task.totalTime + "<br>");
-        calculateTasksFinishedPercent(task);
-        document.write(task.tasksFinishedPercent + "% ׂ<br>");
-    }
-/*
-         *
-                for (let prop in task)
-                document.write(task[prop]);
-                document.write("<br>");
-        */
+<script src ="workSummery.js">
+   
 </script>
 
 
