@@ -32,9 +32,14 @@ let tasks = [
     {
         topic: "Third Weekend Work"
     }];
-// easy setup of tasks array.
-setUpTasks(tasks);
-addProperties(tasks);
+
+// inserts random values to Tasks array
+setUpTasks(tasks); 
+
+// adds properties tasksFinishedPercent and totalTime to every object in tasks
+addProperties(tasks)
+
+// inserts the desired html in to index.html
 insertTable(tasks);
 
 
@@ -44,15 +49,15 @@ function insertTable(tasks) {
     let table = document.createElement('table');
     body.prepend(table);//insert table to the beginning of <body>
     table.insertAdjacentHTML('afterbegin',
-        '<caption>Summery of Work Done</caption>' +
-        '<thead><tr>' +
-        '<th class = "headLine" >Started At</th>' +
-        '<th class = "headLine">Finished At</th>' +
-        '<th class = "headLine">Total Time Spent</th>' +
-        '<th class = "headLine">Tasks Given</th>' +
-        '<th class = "headLine">Tasks Finished</th>' +
-        '<th class = "headLine">Tasks Finished %</th>' +
-        '<th class = "headLine">Topic</th>'
+        '<caption>Summery of Work Done</caption>'
+        + '<thead><tr>'
+        + '<th>Topic</th>'
+        + '<th>Started At</th>'
+        + '<th>Finished At</th>'
+        + '<th>Total Time Spent</th>'
+        + '<th>Tasks Given</th>'
+        + '<th>Tasks Finished</th>'
+        + '<th>Tasks Finished %</th>'
         + '</tr></thead>'
     );
     let tBody = document.createElement('tbody');
@@ -64,18 +69,17 @@ function insertTable(tasks) {
         let startHour = task.startedAt.getHours() + ":" + task.startedAt.getMinutes();
         let endHour = task.finishedAt.getHours() + ":" + task.finishedAt.getMinutes();
 
-        let timeScale = task.totalTime * 100 / 24; // percentage of the maximum of 24 hours that the task took
-        timeScale=timeScale**(1/2); // reduce the differance between min and max.
-
+        let timeScale = task.totalTime * 100 / 25; // percentage of the maximum of 25 hours that the task took
+        timeScale = 80 - (65 * timeScale / 100); // reduce the difference between min and max for styling.
         tBody.insertAdjacentHTML('beforeend',
-            '<tr>' +
-            '<td class = "" >' + startDate + '<br>at: ' + startHour + '</td>' +
-            '<td class = "" >' + endDate + '<br>at: ' + endHour + '</td>' +
-            '<td style="background-color: hsl(231, 71%,' + timeScale + 10 + '%); >' + task.totalTime + '</td>' +
-            '<td class = "" >' + task.tasksGiven + '</td>' +
-            '<td class = "" >' + task.tasksFinished + '</td>' +
-            '<td class = "" >' + task.tasksFinishedPercent + '</td>' +
-            '<td class = "" >' + task.topic + '</td>'
+            '<tr>'
+            + '<td>' + task.topic + '</td>'
+            + '<td>' + startDate + '<br>at: ' + startHour + '</td>'
+            + '<td>' + endDate + '<br>at: ' + endHour + '</td>'
+            + '<td style="background-color: hsl(231, 71%, ' + timeScale + '%);">' + task.totalTime + '</td>'
+            + '<td>' + task.tasksGiven + '</td>'
+            + '<td>' + task.tasksFinished + '</td>'
+            + '<td style="background-color: hsl(' + task.tasksFinishedPercent + ', 100%, 40%);">' + task.tasksFinishedPercent + '</td>'
             + '</tr>'
         );
     }
@@ -91,8 +95,8 @@ function setUpTasks(tasks) {
         let endMinute = Math.floor(Math.random() * 59);
 
         let startDay = Math.floor(Math.random() * 31 + 1);
-        let endDay = (startHour >= endHour) ? startDay + 1 : startDay; // if end is after start it is on the next day.
-        // maximum amount of time for a single job is 24 hours
+        let endDay = (startHour >= endHour) ? startDay + 1 : startDay; // if end is after start (or in the same hour) it is on the next day.
+        // maximum amount of time for a single job is 25 hours
         task.startedAt = new Date(2021, 0, startDay, startHour, startMinute);
         task.finishedAt = new Date(2021, 0, endDay, endHour, endMinute)
         task.tasksGiven = Math.floor(Math.random() * 20 + 1);
