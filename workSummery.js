@@ -52,7 +52,7 @@ function insertTable(tasks) {
         + '<th>Topic</th>'
         + '<th>Started At</th>'
         + '<th>Finished At</th>'
-        + '<th>Total Time Spent</th>'
+        + '<th>Total Hours Spent</th>'
         + '<th>Tasks Given</th>'
         + '<th>Tasks Finished</th>'
         + '<th>Tasks Finished %</th>'
