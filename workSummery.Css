@@ -15,6 +15,7 @@ th{
     background-color: rgb(157, 161, 165);
     border-radius: 10px;
     padding:10px;
+
 }
 td{
     padding:10px;
@@ -22,5 +23,8 @@ td{
     background-color: black;
     color:white;
     align-content: start;
+}
+#topicHead, #startDateHead, #timeSpentHead, #percentHead{
+        cursor: pointer;
 }
 
