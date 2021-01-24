@@ -31,7 +31,7 @@ let tasks = [
     },
     {
         topic: "Third Weekend Work"
-}];
+    }];
 
 // Inserts random values to tasks array.
 setUpTasks(tasks);
@@ -45,41 +45,54 @@ insertTable(tasks);
 function insertTable(tasks) {
     let body = document.body;
     let table = document.createElement('table');
-    body.prepend(table);//insert table to the beginning of <body>
-    table.insertAdjacentHTML('afterbegin',
-        '<caption>Summery of Work Done</caption>'
-        + '<thead><tr>'
-        + '<th>Topic</th>'
-        + '<th>Started At</th>'
-        + '<th>Finished At</th>'
-        + '<th>Total Hours Spent</th>'
-        + '<th>Tasks Given</th>'
-        + '<th>Tasks Finished</th>'
-        + '<th>Tasks Finished %</th>'
-        + '</tr></thead>'
-    );
+    implantHeader()
+    function implantHeader(){
+        body.prepend(table);//insert table to the beginning of <body>
+        table.insertAdjacentHTML('afterbegin',
+            '<caption>Summery of Work Done</caption>'
+            + '<thead><tr>'
+            + '<th>Topic</th>'
+            + '<th>Started At</th>'
+            + '<th>Finished At</th>'
+            + '<th>Total Hours Spent</th>'
+            + '<th>Tasks Given</th>'
+            + '<th>Tasks Finished</th>'
+            + '<th>Tasks Finished %</th>'
+            + '</tr></thead>'
+        );
+    }
     let tBody = document.createElement('tbody');
     table.append(tBody);//insert <tbody> to the end of <table>
 
     for (let task of tasks) {
-        let startDate = task.startedAt.getDate() + "/" + task.startedAt.getMonth() + 1 + "/" + task.startedAt.getFullYear();
-        let endDate = task.finishedAt.getDate() + "/" + task.finishedAt.getMonth() + 1 + "/" + task.finishedAt.getFullYear();
-        let startHour = task.startedAt.getHours() + ":" + task.startedAt.getMinutes();
-        let endHour = task.finishedAt.getHours() + ":" + task.finishedAt.getMinutes();
-
+        let startDate, startHour, endDate, endHour;
+        stringifyDate()
         let timeScale = task.totalTime * 100 / 25; // the percentage from the maximum of 25 hours that the task took
         timeScale = 80 - (65 * timeScale / 100); // reduce the difference between min and max for styling.
-        tBody.insertAdjacentHTML('beforeend',
-            '<tr>'
-            + '<td>' + task.topic + '</td>'
-            + '<td>' + startDate + '<br>at: ' + startHour + '</td>'
-            + '<td>' + endDate + '<br>at: ' + endHour + '</td>'
-            + '<td style="background-color: hsl(231, 71%, ' + timeScale + '%);">' + task.totalTime + '</td>'
-            + '<td>' + task.tasksGiven + '</td>'
-            + '<td>' + task.tasksFinished + '</td>'
-            + '<td style="background-color: hsl(' + task.tasksFinishedPercent + ', 100%, 40%);">' + task.tasksFinishedPercent + '</td>'
-            + '</tr>'
-        );
+        implantTasks()
+        function stringifyDate() {
+            startDate = task.startedAt.getDate() + "/" + task.startedAt.getMonth() + 1 + "/" + task.startedAt.getFullYear();
+            startHour = task.startedAt.getHours() + ":";
+            startHour += (task.startedAt.getMinutes() > 9) ? + task.startedAt.getMinutes() : "0" + task.startedAt.getMinutes();
+
+            endDate = task.finishedAt.getDate() + "/" + task.finishedAt.getMonth() + 1 + "/" + task.finishedAt.getFullYear();
+            endHour = task.finishedAt.getHours() + ":";
+            endHour += (task.finishedAt.getMinutes() > 9) ? + task.finishedAt.getMinutes() : "0" + task.finishedAt.getMinutes();
+        }
+        function implantTasks() {
+            tBody.insertAdjacentHTML('beforeend',
+                '<tr>'
+                + '<td>' + task.topic + '</td>'
+                + '<td>' + startDate + '<br>at: ' + startHour + '</td>'
+                + '<td>' + endDate + '<br>at: ' + endHour + '</td>'
+                + '<td style="background-color: hsl(231, 71%, ' + timeScale + '%);">' + task.totalTime + '</td>'
+                + '<td>' + task.tasksGiven + '</td>'
+                + '<td>' + task.tasksFinished + '</td>'
+                + '<td style="background-color: hsl(' + task.tasksFinishedPercent + ', 100%, 40%);">' + task.tasksFinishedPercent + '</td>'
+                + '</tr>'
+            );
+        }
+
     }
 }
 
@@ -92,7 +105,7 @@ function setUpTasks(tasks) {
         let endMinute = Math.floor(Math.random() * 59);
 
         let startDay = Math.floor(Math.random() * 31 + 1);
-        let endDay = (startHour >= endHour) ? startDay + 1 : startDay; 
+        let endDay = (startHour >= endHour) ? startDay + 1 : startDay;
         // If endHour is after startHour (or in the same hour) it must be on the next day.
         // maximum amount of time for a single job is 25 hours
         task.startedAt = new Date(2021, 0, startDay, startHour, startMinute);
