@@ -25,6 +25,6 @@ td{
     align-content: start;
 }
 #topicHead, #startDateHead, #timeSpentHead, #percentHead{
-        cursor: pointer;
+    cursor: pointer;
 }
 
