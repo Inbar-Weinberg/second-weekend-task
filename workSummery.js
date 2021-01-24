@@ -34,34 +34,37 @@ let tasks = [
     }];
 
 // Inserts random values to tasks array.
-setUpTasks(tasks);
+setUpTasks();
 
 // Adds properties tasksFinishedPercent and totalTime to every object in tasks
-addProperties(tasks)
+addProperties();
 
 // Inserts the desired html in to index.html
-insertTable(tasks);
+let body = document.body;
+let table = document.createElement('table');
+let tBody = document.createElement('tbody');
 
-function insertTable(tasks) {
-    let body = document.body;
-    let table = document.createElement('table');
-    implantHeader()
-    function implantHeader(){
-        body.prepend(table);//insert table to the beginning of <body>
+insertTableHeader();
+insertTable()
+
+function insertTableHeader(){
+    body.prepend(table);//insert table to the beginning of <body>
         table.insertAdjacentHTML('afterbegin',
             '<caption>Summery of Work Done</caption>'
             + '<thead><tr>'
-            + '<th>Topic</th>'
-            + '<th>Started At</th>'
+            + '<th id = "topicHead">Topic</th>'
+            + '<th id = "startDateHead">Started At</th>'
             + '<th>Finished At</th>'
-            + '<th>Total Hours Spent</th>'
+            + '<th id = "timeSpentHead">Total Hours Spent</th>'
             + '<th>Tasks Given</th>'
             + '<th>Tasks Finished</th>'
-            + '<th>Tasks Finished %</th>'
+            + '<th id = "percentHead">Tasks Finished %</th>'
             + '</tr></thead>'
         );
-    }
-    let tBody = document.createElement('tbody');
+}
+
+function insertTable() {
+
     table.append(tBody);//insert <tbody> to the end of <table>
 
     for (let task of tasks) {
@@ -96,7 +99,7 @@ function insertTable(tasks) {
     }
 }
 
-function setUpTasks(tasks) {
+function setUpTasks() {
     for (let task of tasks) {
         let startHour = Math.floor(Math.random() * 11 + 12); // start working a 12:00
         let startMinute = Math.floor(Math.random() * 59);
@@ -116,7 +119,7 @@ function setUpTasks(tasks) {
     }
 }
 
-function addProperties(tasks) {
+function addProperties() {
     for (let task of tasks) {
         calculateTimeOfWork(task);
         calculateTasksFinishedPercent(task);
@@ -133,6 +136,27 @@ function addProperties(tasks) {
     function calculateTasksFinishedPercent(task) {
         task.tasksFinishedPercent = Math.floor(task.tasksFinished * 100 / task.tasksGiven);
     }
+}
+
+
+/*
+let sortPercentGoUp = function() {
+    tasks.sort((a, b) => a.tasksFinishedPercent - b.tasksFinishedPercent);
+}
+function sortPercentGoDown() {
+    tasks.sort((a, b) => b.tasksFinishedPercent - a.tasksFinishedPercent);
+}
+*/
+let percentHead = document.getElementById("percentHead");
+percentHead.onclick = function() {
+    tasks.sort((a, b) => a.tasksFinishedPercent - b.tasksFinishedPercent);
+    reWriteTable();
+};
+
+function reWriteTable(){
+    tBody.remove();
+    tBody = document.createElement('tbody');
+    insertTable();
 }
 
 
