@@ -47,20 +47,20 @@ let tBody = document.createElement('tbody');
 insertTableHeader();
 insertTable()
 
-function insertTableHeader(){
+function insertTableHeader() {
     body.prepend(table);//insert table to the beginning of <body>
-        table.insertAdjacentHTML('afterbegin',
-            '<caption>Summery of Work Done</caption>'
-            + '<thead><tr>'
-            + '<th id = "topicHead">Topic</th>'
-            + '<th id = "startDateHead">Started At</th>'
-            + '<th>Finished At</th>'
-            + '<th id = "timeSpentHead">Total Hours Spent</th>'
-            + '<th>Tasks Given</th>'
-            + '<th>Tasks Finished</th>'
-            + '<th id = "percentHead">Tasks Finished %</th>'
-            + '</tr></thead>'
-        );
+    table.insertAdjacentHTML('afterbegin',
+        '<caption>Summery of Work Done</caption>'
+        + '<thead><tr>'
+        + '<th id = "topicHead">Topic</th>'
+        + '<th id = "startDateHead">Started At</th>'
+        + '<th>Finished At</th>'
+        + '<th id = "timeSpentHead">Total Hours Spent</th>'
+        + '<th>Tasks Given</th>'
+        + '<th>Tasks Finished</th>'
+        + '<th id = "percentHead">Tasks Finished %</th>'
+        + '</tr></thead>'
+    );
 }
 
 function insertTable() {
@@ -139,24 +139,90 @@ function addProperties() {
 }
 
 
-/*
-let sortPercentGoUp = function() {
-    tasks.sort((a, b) => a.tasksFinishedPercent - b.tasksFinishedPercent);
-}
-function sortPercentGoDown() {
-    tasks.sort((a, b) => b.tasksFinishedPercent - a.tasksFinishedPercent);
-}
-*/
-let percentHead = document.getElementById("percentHead");
-percentHead.onclick = function() {
-    tasks.sort((a, b) => a.tasksFinishedPercent - b.tasksFinishedPercent);
-    reWriteTable();
-};
 
-function reWriteTable(){
+
+/// sort by %
+let percentHead = document.getElementById("percentHead");
+percentHead.addEventListener('click', percentHandler, { once: false });
+let percentCounter = 0;
+function percentHandler() {
+    percentCounter++;
+    if (percentCounter % 2 === 0) sortPercentGoUp();
+    else sortPercentGoDown();
+    reWriteTable();
+    function sortPercentGoUp() {
+        tasks.sort((a, b) => a.tasksFinishedPercent - b.tasksFinishedPercent);
+    }
+    function sortPercentGoDown() {
+        tasks.sort((a, b) => b.tasksFinishedPercent - a.tasksFinishedPercent);
+    }
+}
+
+///// sort by start date
+let startDateHead = document.getElementById("startDateHead");
+startDateHead.addEventListener('click', startDateHandler, { once: false });
+let startDateCounter = 0;
+function startDateHandler() {
+    startDateCounter++;
+    if (startDateCounter % 2 === 0) sortStartDateGoUp();
+    else sortStartDateGoDown();
+    reWriteTable();
+    function sortStartDateGoUp() {
+        tasks.sort((a, b) => a.startedAt - b.startedAt);
+    }
+    function sortStartDateGoDown() {
+        tasks.sort((a, b) => b.startedAt - a.startedAt);
+    }
+}
+
+///// sort by total hours spent 
+let timeSpentHead = document.getElementById("timeSpentHead");
+timeSpentHead.addEventListener('click', timeSpentHandler, { once: false });
+let timeSpentCounter = 0;
+function timeSpentHandler() {
+    timeSpentCounter++;
+    if (timeSpentCounter % 2 === 0) sortTimeSpentGoUp();
+    else sortTimeSpentGoDown();
+    reWriteTable();
+    function sortTimeSpentGoUp() {
+        tasks.sort((a, b) => a.totalTime - b.totalTime);
+    }
+    function sortTimeSpentGoDown() {
+        tasks.sort((a, b) => b.totalTime - a.totalTime);
+    }
+}
+
+///// sort by topic title 
+let topicHead = document.getElementById("topicHead");
+topicHead.addEventListener('click', topicHandler, { once: false });
+let topicCounter = 0;
+function topicHandler() {
+    topicCounter++;
+    if (topicCounter % 2 === 0) sortTopicGoUp();
+    else sortTopicGoDown();
+    reWriteTable();
+
+    function sortTopicGoUp() {
+        tasks.sort(function (a, b) {
+            if (a.topic > b.topic) return 1;
+            if (a.topic < b.topic) return -1;
+            return 0;
+        });
+    }
+    function sortTopicGoDown() {
+        tasks.sort(function (a, b) {
+            if (a.topic > b.topic) { return -1; }
+            if (a.topic < b.topic) { return 1; }
+            return 0;
+        });
+    }
+}
+
+
+
+
+function reWriteTable() {
     tBody.remove();
     tBody = document.createElement('tbody');
     insertTable();
 }
-
-
